@@ -18,6 +18,7 @@ const requiredFiles = [
     "assets/images/app-icon-192.png",
     "assets/images/app-icon-512.png",
     "assets/images/social-preview.png",
+    "scripts/check-contrast.mjs",
 ];
 
 const pages = new Map([
@@ -77,6 +78,15 @@ for (const absolute of htmlFiles) {
     const html = readFileSync(absolute, "utf8");
     const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
     check(ids.length === new Set(ids).size, `${relative} contains duplicate id values`);
+    check((html.match(/<main\b/g) ?? []).length === 1, `${relative} must contain exactly one main landmark`);
+    check((html.match(/<h1\b/g) ?? []).length === 1, `${relative} must contain exactly one h1`);
+    check(/<html\s+lang="(?:en|de)"/.test(html), `${relative} must declare an English or German document language`);
+    check(html.includes('class="skip-link" href="#main-content"'), `${relative} is missing the keyboard skip link`);
+    check(ids.includes("main-content"), `${relative} is missing the skip-link target`);
+    check(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), `${relative} contains an image without alt text`);
+    check(!/<script\b/i.test(html), `${relative} must remain script-free`);
+    check(!/tabindex="-[1-9]/i.test(html), `${relative} removes content from the keyboard focus order`);
+    check(!/\son(?:click|keydown|keyup)=/i.test(html), `${relative} uses inline interaction handlers`);
 
     for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
         const raw = match[1];
@@ -107,10 +117,36 @@ for (const absolute of htmlFiles) {
 
 check(read("404.html").includes('name="robots" content="noindex"'), "404.html must be excluded from indexing");
 
+const css = read("assets/css/site.css");
+check(css.includes("@media (prefers-color-scheme: dark)"), "site.css must retain the system dark-theme media query");
+check(css.includes("@media (prefers-reduced-motion: reduce)"), "site.css must honor reduced-motion preferences");
+check(css.includes("scroll-behavior: auto"), "The reduced-motion treatment must disable smooth scrolling");
+check(css.includes("animation-duration: 0.01ms !important"), "The reduced-motion treatment must minimize animation duration");
+check(css.includes("transition-duration: 0.01ms !important"), "The reduced-motion treatment must minimize transition duration");
+check(css.includes("a:focus-visible, .button:focus-visible"), "Interactive links and buttons must expose a visible focus treatment");
+
+const landingLinks = new Map([
+    ["index.html", ["privacy/index.html", "legal/index.html"]],
+    ["de/index.html", ["datenschutz/index.html", "impressum/index.html"]],
+]);
+for (const [page, links] of landingLinks) {
+    const html = read(page);
+    for (const link of links) check(html.includes(`href="${link}"`), `${page} is missing legal link ${link}`);
+}
+
+const publicFiles = allFiles.filter((file) => {
+    const relative = path.relative(root, file).replaceAll(path.sep, "/");
+    return !relative.startsWith("scripts/") && relative !== "README.md";
+});
+const publicBytes = publicFiles.reduce((total, file) => total + statSync(file).size, 0);
+for (const file of htmlFiles) check(statSync(file).size <= 64 * 1024, `${path.relative(root, file)} exceeds the 64 KiB HTML budget`);
+check(statSync(path.join(root, "assets/css/site.css")).size <= 48 * 1024, "site.css exceeds the 48 KiB CSS budget");
+check(publicBytes <= 512 * 1024, `Static release payload exceeds 512 KiB (${publicBytes} bytes)`);
+
 if (issues.length) {
     console.error(`ParkLoka website checks failed (${issues.length}):`);
     for (const issue of issues) console.error(`- ${issue}`);
     process.exit(1);
 }
 
-console.log(`ParkLoka website checks passed: ${htmlFiles.length} HTML files, ${requiredFiles.length} required release files, ${pages.size} canonical routes.`);
+console.log(`ParkLoka website checks passed: ${htmlFiles.length} HTML files, ${requiredFiles.length} required release files, ${pages.size} canonical routes, ${publicBytes} static bytes.`);

@@ -24,9 +24,10 @@ Run the dependency-free checker from the repository root:
 
 ```powershell
 node scripts/check-site.mjs
+node scripts/check-contrast.mjs
 ```
 
-It validates the required GitHub Pages and AdMob files, public canonical and language-alternate metadata, social preview and icon assets, Google Play links, duplicate IDs, in-page anchors, and local file targets. It also rejects committed AdMob application or ad-unit IDs; only the public publisher record belongs in `app-ads.txt`.
+The checks validate the required GitHub Pages and AdMob files, public canonical and language-alternate metadata, social preview and icon assets, Google Play links, semantic landmarks, keyboard skip links, reduced-motion handling, static performance budgets, duplicate IDs, in-page anchors, local file targets, and WCAG contrast ratios for the shared light/dark color tokens. They also reject committed AdMob application or ad-unit IDs; only the public publisher record belongs in `app-ads.txt`.
 
 ## GitHub Pages publication
 
@@ -52,6 +53,8 @@ assets/
 de/
   index.html
 docs/planning/
+docs/verification/
+scripts/check-contrast.mjs
 scripts/check-site.mjs
 404.html
 CNAME
