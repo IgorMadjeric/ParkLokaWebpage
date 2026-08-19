@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+    <title id="title">ParkLoka app icon</title>
+    <desc id="desc">A white car on a violet rounded square.</desc>
+    <rect width="512" height="512" rx="112" fill="#6554d9"/>
+    <circle cx="256" cy="256" r="154" fill="#e6e0ff" opacity="0.18"/>
+    <g transform="translate(80 80) scale(14.6667)" fill="none" stroke="#ffffff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 17h14v-6l-2-5H7l-2 5v6Z"/>
+        <path d="M7 17v2M17 17v2M5 11h14M8 14h.01M16 14h.01"/>
+    </g>
+</svg>
