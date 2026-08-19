@@ -15,7 +15,7 @@ flowchart LR
 
 | Feature | Status | Doc |
 |---------|--------|-----|
-| P1-F02 GitHub Pages website and legal presence | planned | [P1-F02](features/P1-F02-github-pages-website.md) |
+| P1-F02 GitHub Pages website and legal presence | in-progress | [P1-F02](features/P1-F02-github-pages-website.md) |
 
 ## Phase 2 — Maintenance
 
