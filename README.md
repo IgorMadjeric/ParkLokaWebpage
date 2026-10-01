@@ -65,3 +65,7 @@ sitemap.xml
 ```
 
 Changes pushed to `main` are published automatically by GitHub Pages.
+
+## Production application
+
+Production availability was confirmed by the owner on 2026-10-01. Both localized homepages offer direct downloads from [Google Play](https://play.google.com/store/apps/details?id=app.parkloka). This date records confirmation, not the original launch date.
