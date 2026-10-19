@@ -45,7 +45,7 @@
                 <p class="section-kicker">App and website privacy</p>
                 <h1>Privacy Policy</h1>
                 <p class="legal-lead">This policy explains how the ParkLoka Android app and the parkloka.app website handle information. The app is local-first, while hosting, device services, external apps, Android backup, and advertising involve their respective providers.</p>
-                <p class="legal-meta">Last updated: 19 August 2026</p>
+                <p class="legal-meta">Last updated: 19 October 2026</p>
             </div>
 
             <div class="legal-layout">
@@ -82,8 +82,13 @@
                     <section id="location">
                         <h2>3. Location and address lookup in the app</h2>
                         <h3>Foreground location</h3>
-                        <p>ParkLoka asks Android for approximate or precise foreground location when you choose to save your current parking spot. While the app is open on the parked-car screen, it also receives foreground location updates to calculate the live straight-line distance to the saved car. ParkLoka does not request background-location permission and does not build a location history.</p>
+                        <p>ParkLoka asks Android for approximate or precise foreground location when you choose to save your current parking spot. While the app is open on the parked-car screen, it also receives foreground location updates to calculate the live straight-line distance to the saved car.</p>
                         <p>The saved record contains one set of coordinates, measured accuracy, and timestamp. Live positions used for the distance calculation are not added to the parking database. You may deny location permission, but saving a new spot and calculating live distance will then be unavailable.</p>
+                        <h3>Optional automatic parking and background location</h3>
+                        <p>If you enable Automatic Parking in My car and select an already-paired car, ParkLoka collects location data to automatically save your parking spot when that car disconnects from Bluetooth, even when the app is closed or not in use. This optional feature requires precise location, background-location permission ("Allow all the time"), and access to nearby Bluetooth devices on supported Android versions. Android manages pairing and the connection; ParkLoka recognizes the selected device by its Bluetooth identifier.</p>
+                        <p>While the selected car is connected, ParkLoka periodically accesses precise location to prepare the location provider and improve parking accuracy. After disconnection, it requests a fresh location and saves the final parking spot only if the fix meets its accuracy requirements. During-ride locations are not stored and no route history is created. Reconnecting marks the retained spot as a previous location; a failed capture does not replace it with an inaccurate new spot.</p>
+                        <p>You can turn Automatic Parking off or remove the selected car in My car, or revoke location and nearby-device permissions in Android settings. Disabling or removing the car stops background location work and pending automatic captures without deleting your retained parking spot. Manual parking remains available with foreground location permission. Background operation depends on Android location services and device power restrictions; a successful save is not guaranteed on every disconnect.</p>
+                        <p>If an automatic save fails and you have allowed notifications, ParkLoka can show an on-device failure notification with a "Save here now" action. The notification contains no location or address and is not sent to a server. The action attempts a fresh location capture to save your spot.</p>
                         <h3>Best-effort address lookup</h3>
                         <p>After coordinates are saved, ParkLoka asks Android’s built-in Geocoder for a readable address. The geocoder implementation configured on the device—often a Google service—may receive the coordinates and may use a network connection. ParkLoka does not operate this service, and Android does not guarantee availability or accuracy. If lookup fails, the coordinates remain usable.</p>
                         <p><a href="https://developer.android.com/reference/android/location/Geocoder">Android Geocoder documentation</a></p>
@@ -91,7 +96,7 @@
 
                     <section id="storage">
                         <h2>4. Local parking data, photos, and backup</h2>
-                        <p>ParkLoka stores only one active parking record in its private local database. Depending on what you add, this can include:</p>
+                        <p>ParkLoka retains one parking record in its private local database, shown as current or previous according to the car's connection and save state. Depending on what you add, this can include:</p>
                         <ul>
                             <li>coordinates, accuracy, save time, and resolved address;</li>
                             <li>an optional note and parking type;</li>
@@ -99,8 +104,9 @@
                             <li>the private file path for one optional parking photo.</li>
                         </ul>
                         <p>A photo is captured through a compatible camera app using a temporary Android file permission, then stored in ParkLoka’s app-private files. ParkLoka does not request access to the device-wide photo library.</p>
+                        <p>Automatic Parking also stores the selected car's Bluetooth device identifier and name, whether automation is enabled, and the latest connection, disconnection and save-result information. Local diagnostic metadata may include permission/provider state, capture duration and measured accuracy; it is not a journey or event history. ParkLoka does not pass this Bluetooth metadata or the feature's location data to advertising or analytics services.</p>
                         <h3>Android backup and device transfer</h3>
-                        <p>Android backup is currently enabled for ParkLoka. Depending on your Android version, device manufacturer, account, and backup settings, Android may include the app database, preferences, and internal files in an encrypted cloud backup or device-to-device transfer. That processing is controlled by Android and the selected backup provider, not by a ParkLoka server. You can manage backup in your device settings.</p>
+                        <p>Android backup is enabled with explicit rules limited to the app database (including parking and automatic-parking setup/status data), app-private parking photos, and local ad-eligibility counters. Depending on your Android version, device manufacturer, account and backup settings, Android may include these files in an encrypted cloud backup or device-to-device transfer. That processing is controlled by Android and the selected backup provider, not by a ParkLoka server. You can manage backup in your device or account settings.</p>
                         <p><a href="https://developer.android.com/identity/data/autobackup">Android Auto Backup documentation</a></p>
                         <h3>Local calculations</h3>
                         <p>Distance, elapsed parking time, and the approximate walking time are calculated locally. Walking time is a rough estimate based on straight-line distance, not a routed journey time.</p>
@@ -149,7 +155,9 @@
                     <section id="retention">
                         <h2>8. Retention and deletion</h2>
                         <ul>
-                            <li>The active parking record remains until you replace it, choose <strong>Forget</strong>, clear app data, or uninstall the app.</li>
+                            <li>The retained current or previous parking record remains until you replace it with a successful manual or automatic save, choose <strong>Forget</strong>, clear app data, or uninstall the app. Disabling automation or removing the selected car does not delete this parking record.</li>
+                            <li>Disabling automation retains the selected car and latest status information so you can enable it again. Changing or removing the car replaces or removes its stored identifier and name; latest event/result metadata may remain until overwritten. Clearing app storage or uninstalling removes this on-device setup and status data.</li>
+                            <li>A failure notification is removed when dismissed, after a successful save, when the selected car reconnects, or after 30 minutes.</li>
                             <li>Replacing or forgetting a spot removes the obsolete ParkLoka photo from app-private storage; removing or replacing a photo removes the prior file.</li>
                             <li>Uninstalling removes the on-device app data, but an Android backup may remain according to device/account settings and the backup provider’s retention rules and may restore data later.</li>
                             <li>GitHub determines retention for GitHub Pages security logs; Google and advertising partners determine retention for data they process under their policies.</li>

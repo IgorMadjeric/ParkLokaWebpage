@@ -45,7 +45,7 @@
                 <p class="section-kicker">Datenschutz in App und Website</p>
                 <h1>Datenschutzerklärung</h1>
                 <p class="legal-lead">Diese Erklärung erläutert, wie die ParkLoka-Android-App und die Website parkloka.app mit Informationen umgehen. Die App arbeitet lokal; Hosting, Gerätedienste, externe Apps, Android-Backup und Werbung beziehen jedoch die jeweiligen Anbieter ein.</p>
-                <p class="legal-meta">Stand: 19. August 2026</p>
+                <p class="legal-meta">Stand: 19. Oktober 2026</p>
             </div>
 
             <div class="legal-layout">
@@ -82,8 +82,13 @@
                     <section id="standort">
                         <h2>3. Standort und Adressermittlung in der App</h2>
                         <h3>Standort im Vordergrund</h3>
-                        <p>ParkLoka fragt Android nach dem ungefähren oder genauen Standort im Vordergrund, wenn du deinen aktuellen Parkplatz speichern möchtest. Während die App mit der Ansicht des geparkten Autos geöffnet ist, empfängt sie außerdem Standortaktualisierungen im Vordergrund, um die aktuelle Luftlinienentfernung zum gespeicherten Auto zu berechnen. ParkLoka fordert keine Hintergrund-Standortberechtigung an und erstellt keinen Standortverlauf.</p>
+                        <p>ParkLoka fragt Android nach dem ungefähren oder genauen Standort im Vordergrund, wenn du deinen aktuellen Parkplatz speichern möchtest. Während die App mit der Ansicht des geparkten Autos geöffnet ist, empfängt sie außerdem Standortaktualisierungen im Vordergrund, um die aktuelle Luftlinienentfernung zum gespeicherten Auto zu berechnen.</p>
                         <p>Gespeichert werden genau ein Koordinatenpaar, die gemessene Genauigkeit und der Zeitstempel. Live-Positionen für die Entfernungsberechnung werden nicht in die Parkplatzdatenbank aufgenommen. Du kannst die Standortberechtigung ablehnen; dann sind das Speichern eines neuen Parkplatzes und die aktuelle Entfernungsberechnung nicht verfügbar.</p>
+                        <h3>Optionales automatisches Parken und Hintergrundstandort</h3>
+                        <p>Wenn du automatisches Parken unter „Mein Auto“ aktivierst und ein bereits gekoppeltes Auto auswählst, erfasst ParkLoka Standortdaten, um deinen Parkplatz beim Trennen dieser Bluetooth-Verbindung automatisch zu speichern – auch wenn die App geschlossen ist oder nicht verwendet wird. Diese optionale Funktion benötigt den genauen Standort, die Hintergrund-Standortberechtigung („Immer zulassen“) und auf entsprechenden Android-Versionen Zugriff auf Bluetooth-Geräte in der Nähe. Android verwaltet Kopplung und Verbindung; ParkLoka erkennt das ausgewählte Gerät anhand seiner Bluetooth-Kennung.</p>
+                        <p>Solange das ausgewählte Auto verbunden ist, greift ParkLoka regelmäßig auf den genauen Standort zu, um den Standortanbieter vorzubereiten und die Parkplatzgenauigkeit zu verbessern. Nach dem Trennen fordert die App einen frischen Standort an und speichert den endgültigen Parkplatz nur, wenn die Positionsbestimmung die Genauigkeitsanforderungen erfüllt. Positionen während der Fahrt werden nicht gespeichert und es entsteht kein Routenverlauf. Bei erneuter Verbindung wird der gespeicherte Parkplatz als vorheriger Standort markiert; eine fehlgeschlagene Erfassung ersetzt ihn nicht durch einen ungenauen neuen Parkplatz.</p>
+                        <p>Du kannst automatisches Parken unter „Mein Auto“ ausschalten oder das ausgewählte Auto entfernen und in den Android-Einstellungen Standort- und Geräteberechtigungen entziehen. Ausschalten oder Entfernen beendet die Standortarbeit im Hintergrund und ausstehende automatische Erfassungen, ohne den gespeicherten Parkplatz zu löschen. Manuelles Speichern bleibt mit der Standortberechtigung im Vordergrund verfügbar. Hintergrundbetrieb hängt von Android-Standortdiensten und den Energieeinstellungen des Geräts ab; eine erfolgreiche Speicherung ist nicht bei jeder Trennung garantiert.</p>
+                        <p>Falls eine automatische Speicherung fehlschlägt und du Benachrichtigungen erlaubt hast, kann ParkLoka auf dem Gerät eine Fehlermeldung mit der Aktion „Jetzt hier speichern“ anzeigen. Die Benachrichtigung enthält weder Standort noch Adresse und wird nicht an einen Server gesendet. Die Aktion versucht, einen frischen Standort zu erfassen und deinen Parkplatz zu speichern.</p>
                         <h3>Bestmögliche Adressermittlung</h3>
                         <p>Nach dem Speichern der Koordinaten fragt ParkLoka den in Android integrierten Geocoder nach einer lesbaren Adresse. Die auf dem Gerät konfigurierte Geocoder-Implementierung – häufig ein Google-Dienst – kann dafür die Koordinaten erhalten und eine Netzwerkverbindung nutzen. ParkLoka betreibt diesen Dienst nicht; Android garantiert weder Verfügbarkeit noch Genauigkeit. Schlägt die Abfrage fehl, bleiben die Koordinaten nutzbar.</p>
                         <p><a href="https://developer.android.com/reference/android/location/Geocoder?hl=de">Dokumentation zum Android Geocoder</a></p>
@@ -91,7 +96,7 @@
 
                     <section id="speicherung">
                         <h2>4. Lokale Parkdaten, Fotos und Backup</h2>
-                        <p>ParkLoka speichert genau einen aktiven Parkdatensatz in seiner privaten lokalen Datenbank. Abhängig von deinen Eingaben kann dieser enthalten:</p>
+                        <p>ParkLoka bewahrt einen Parkdatensatz in seiner privaten lokalen Datenbank auf, der je nach Verbindungs- und Speicherstatus als aktueller oder vorheriger Parkplatz angezeigt wird. Abhängig von deinen Eingaben kann dieser enthalten:</p>
                         <ul>
                             <li>Koordinaten, Genauigkeit, Speicherzeitpunkt und ermittelte Adresse;</li>
                             <li>eine optionale Notiz und Parkart;</li>
@@ -99,8 +104,9 @@
                             <li>den privaten Dateipfad für ein optionales Parkplatzfoto.</li>
                         </ul>
                         <p>Ein Foto wird über eine kompatible Kamera-App mit einer vorübergehenden Android-Dateiberechtigung aufgenommen und anschließend in ParkLokas privatem App-Speicher abgelegt. ParkLoka fordert keinen Zugriff auf die gesamte Fotobibliothek des Geräts an.</p>
+                        <p>Automatisches Parken speichert außerdem Bluetooth-Kennung und Namen des ausgewählten Autos, den Aktivierungszustand sowie Angaben zur letzten Verbindung, Trennung und zum letzten Speicherergebnis. Lokale Diagnoseangaben können Berechtigungs- und Anbieterstatus, Erfassungsdauer und gemessene Genauigkeit umfassen; sie bilden keinen Fahrt- oder Ereignisverlauf. ParkLoka übergibt diese Bluetooth-Metadaten und die Standortdaten dieser Funktion nicht an Werbe- oder Analysedienste.</p>
                         <h3>Android-Backup und Geräteübertragung</h3>
-                        <p>Android-Backup ist für ParkLoka derzeit aktiviert. Abhängig von Android-Version, Gerätehersteller, Konto und Backup-Einstellungen kann Android die App-Datenbank, Einstellungen und internen Dateien in ein verschlüsseltes Cloud-Backup oder eine Geräteübertragung einbeziehen. Diese Verarbeitung steuern Android und der ausgewählte Backup-Anbieter, nicht ein ParkLoka-Server. Backup lässt sich in den Geräteeinstellungen verwalten.</p>
+                        <p>Android-Backup ist mit ausdrücklichen Regeln aktiviert, die es auf die App-Datenbank (einschließlich Parkdaten sowie Einrichtung und Status des automatischen Parkens), private Parkplatzfotos und lokale Zähler für Werbeeinblendungen beschränken. Abhängig von Android-Version, Gerätehersteller, Konto und Backup-Einstellungen kann Android diese Dateien in ein verschlüsseltes Cloud-Backup oder eine Geräteübertragung einbeziehen. Diese Verarbeitung steuern Android und der ausgewählte Backup-Anbieter, nicht ein ParkLoka-Server. Backups lassen sich in den Geräte- oder Kontoeinstellungen verwalten.</p>
                         <p><a href="https://developer.android.com/identity/data/autobackup?hl=de">Dokumentation zu Android Auto Backup</a></p>
                         <h3>Lokale Berechnungen</h3>
                         <p>Entfernung, bisherige Parkdauer und ungefähre Gehzeit werden lokal berechnet. Die Gehzeit ist eine grobe Schätzung anhand der Luftlinie und keine berechnete Fußwegroute.</p>
@@ -149,7 +155,9 @@
                     <section id="speicherdauer">
                         <h2>8. Speicherdauer und Löschung</h2>
                         <ul>
-                            <li>Der aktive Parkdatensatz bleibt gespeichert, bis du ihn ersetzt, <strong>Vergessen</strong> auswählst, die App-Daten löschst oder die App deinstallierst.</li>
+                            <li>Der aktuelle oder vorherige Parkdatensatz bleibt gespeichert, bis eine erfolgreiche manuelle oder automatische Speicherung ihn ersetzt, du <strong>Vergessen</strong> auswählst, die App-Daten löschst oder die App deinstallierst. Ausschalten der Automatik oder Entfernen des Autos löscht diesen Parkplatz nicht.</li>
+                            <li>Beim Ausschalten der Automatik bleiben das ausgewählte Auto und die letzten Statusangaben für eine spätere Aktivierung erhalten. Ändern oder Entfernen des Autos ersetzt oder entfernt dessen gespeicherte Kennung und Namen; letzte Ereignis- und Ergebnisangaben können bis zum Überschreiben erhalten bleiben. Löschen des App-Speichers oder Deinstallation entfernt diese Einrichtungs- und Statusdaten auf dem Gerät.</li>
+                            <li>Eine Fehlerbenachrichtigung wird beim Verwerfen, nach erfolgreichem Speichern, bei erneuter Verbindung mit dem ausgewählten Auto oder nach 30 Minuten entfernt.</li>
                             <li>Beim Ersetzen oder Vergessen eines Parkplatzes entfernt ParkLoka das nicht mehr benötigte Foto aus dem privaten App-Speicher; beim Entfernen oder Ersetzen eines Fotos wird die vorherige Datei gelöscht.</li>
                             <li>Eine Deinstallation entfernt die App-Daten auf dem Gerät. Ein Android-Backup kann jedoch entsprechend den Geräte- und Kontoeinstellungen sowie den Speicherregeln des Backup-Anbieters fortbestehen und später Daten wiederherstellen.</li>
                             <li>GitHub bestimmt die Speicherdauer für Sicherheitsprotokolle von GitHub Pages; Google und Werbepartner bestimmen die Speicherdauer der von ihnen verarbeiteten Daten nach ihren Richtlinien.</li>
